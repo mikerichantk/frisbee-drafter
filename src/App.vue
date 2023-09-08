@@ -1,6 +1,7 @@
 <template>
   <div class='frisbee-draft'>
     <button @click='startDraft()' class='start-draft'>Start Draft</button>
+    <input type="file" @change="handleCSVFileUpload" accept=".csv" class='file-browser'/>
     <div class='title mb'>Frisbee Draft</div>
     <button v-if='!draftStarted' @click='addTeam()'>Add Team</button>
     <div v-if='showTeamNameInput'>
@@ -14,12 +15,14 @@
 </template>
 
 <script>
+import Papa from 'papaparse'
 
 export default {
   name: 'App',
   data() {
     return {
       draftStarted: false,
+      playerList: [],
       showTeamNameInput: false,
       teamIndex: 0,
       teamName: '',
@@ -31,6 +34,47 @@ export default {
     addTeam()
     {
       this.showTeamNameInput = true
+    },
+    handleCSVFileUpload(event) {
+      const file = event.target.files[0];
+
+      Papa.parse(file, {
+        header: false,
+        skipEmptyLines: true,
+        complete: this.processCSVData
+      })
+    },
+    processCSVData(results) {
+      // Access the parsed data in results.data
+      const csvData = results.data
+
+      // Define custom headers or use column indexes
+      const customHeaders = [
+        'Timestamp',
+        'PlayerName',
+        'EmailAddress',
+        'WeeksAvailable',
+        'AdditionalComments',
+        'PaymentMethod',
+        'FitnessLevel',
+        'Captain',
+        'Gender',
+        'SkillLevel'
+      ]
+
+      // Iterate through each row of data and create player objects
+      const players = csvData.map(row => {
+        const player = {};
+        customHeaders.forEach((header, index) => {
+          player[header] = row[index];
+        });
+        return player;
+      });
+
+      this.playerList = players
+
+      // Now you have an array of player objects to work with
+      console.log(this.playerList)
     },
     startDraft()
     {
@@ -88,6 +132,18 @@ export default {
   padding-right: 10px;
 }
 
+.file-browser {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.start-draft {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
 .bg-red {
   background-color: #E7A1A1;
 }
@@ -114,12 +170,6 @@ export default {
 
 .mb {
   margin-bottom: 20px;
-}
-
-.start-draft {
-  position: absolute;
-  top: 20px;
-  right: 20px;
 }
 
 </style>
