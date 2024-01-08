@@ -12,7 +12,7 @@
       <div class='team' :class='teamColor(team.index)' v-for='team in teams' :key='team.index'>{{team.name}}</div>
     </div>
     <div class='player-grid'>
-      <div class='player' v-for='player in playerList' :key='player.index'>{{player.AdditionalComments}}</div>
+      <div class='player' v-for='player in playerList' :key='player.index'>{{player.Name}}</div>
     </div>
   </div>
 </template>
@@ -55,13 +55,13 @@ export default {
       // Define custom headers or use column indexes
       const customHeaders = [
         'Timestamp',
-        'PlayerName',
+        'Email',
         'EmailAddress',
         'WeeksAvailable',
-        'AdditionalComments',
-        'PaymentMethod',
-        'FitnessLevel',
+        'Name',
+        'Paid',
         'Captain',
+        'HaveYouPlayed',
         'Gender',
         'SkillLevel'
       ]
@@ -77,7 +77,7 @@ export default {
         return player
       })
 
-      const filteredPlayers = players.filter(player => player['AdditionalComments'] !== '')
+      const filteredPlayers = players.filter(player => (player['Name'] !== ''))
 
       this.playerList = filteredPlayers
 
