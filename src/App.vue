@@ -1,7 +1,7 @@
 <template>
   <div class='frisbee-draft'>
-    <button @click='startDraft()' class='start-draft'>Start Draft</button>
-    <input type="file" @change="handleCSVFileUpload" accept=".csv" class='file-browser'/>
+    <button v-if="!draftStarted" @click='startDraft()' class='start-draft'>Start Draft</button>
+    <input v-if="!draftStarted" type="file" @change="handleCSVFileUpload" accept=".csv" class='file-browser'/>
     <div class='title mb'>Frisbee Draft</div>
     <button v-if='!draftStarted' @click='addTeam()'>Add Team</button>
     <div v-if='showTeamNameInput'>
