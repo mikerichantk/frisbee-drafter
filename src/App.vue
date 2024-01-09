@@ -130,7 +130,6 @@ export default {
 
       // Define custom headers or use column indexes
       const customHeaders = csvData[0]
-      let playerIndex = -1
 
       // Iterate through each row of data and create player objects
       const players = csvData.map(row => {
@@ -138,8 +137,6 @@ export default {
         customHeaders.forEach((header, index) => {
           player[header] = row[index]
         })
-        player['index'] = playerIndex
-        playerIndex++
         return player
       })
 
@@ -172,7 +169,7 @@ export default {
     teamColor(index)
     {
       const colors = ["bg-salmon", "bg-blue", "bg-green", "bg-yellow"]
-      return colors[index%5]
+      return colors[index%4]
     },
   },
 }
@@ -229,7 +226,7 @@ export default {
   font-weight: 600;
   color: black;
   min-width: 100px;
-  height: 30px;
+  height: 50px;
   border-radius: 15px;
   padding-left: 10px;
   padding-right: 10px;
