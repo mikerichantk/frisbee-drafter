@@ -9,17 +9,31 @@
       <button @click='submitTeamName()'>Submit</button>
     </div>
     <div class='draft-grid'>
-      <div
-        class='team'
-        :class="{[teamColor(team.index)]: true, choose: clickedPlayer != null}"
-        v-for='team in teams'
-        :key='team.index'
-        @click="handleTeamClick(team.index)"
-      >
-        {{team.name}}
+      <div class="flex space-between">
+        <div
+          class='team'
+          :class="{[teamColor(team.index)]: true, choose: clickedPlayer != null}"
+          v-for='team in teams'
+          :key='team.index'
+          @click="handleTeamClick(team.index)"
+        >
+          {{team.name}}
+        </div>
       </div>
-      <div class="team-players">
-
+      <div class="flex space-between">
+        <div
+          class="player-columns"
+          v-for="team in teams"
+          :key="team.index"
+        >
+          <div
+              class="team-players player"
+              v-for="(player, index) in team.teamPlayers"
+              :key="index"
+            >
+              {{ player['Your Name'] }}
+          </div>
+        </div>
       </div>
     </div>
     <div class='player-grid'>
@@ -30,7 +44,7 @@
         :key='player.index'
         @click="handlePlayerClick(index)"
       >
-          {{player['Your Name']}}
+          {{ player['Your Name'] }}
       </div>
     </div>
   </div>
@@ -152,11 +166,25 @@ export default {
   height: 200vh;
 }
 
+.flex {
+  display: flex;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.player-columns {
+  display: flex;
+  flex-direction: column;
+}
+
 .draft-grid {
   padding-top: 20px;
   padding-left: 100px;
   padding-right: 100px;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   margin-bottom: 100px;
 }
