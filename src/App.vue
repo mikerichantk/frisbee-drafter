@@ -9,10 +9,25 @@
       <button @click='submitTeamName()'>Submit</button>
     </div>
     <div class='draft-grid'>
-      <div class='team' :class='teamColor(team.index)' v-for='team in teams' :key='team.index'>{{team.name}}</div>
+      <div
+        class='team'
+        :class='teamColor(team.index)'
+        v-for='team in teams'
+        :key='team.index'
+      >
+        {{team.name}}
+      </div>
     </div>
     <div class='player-grid'>
-      <div class='player' v-for='player in playerList' :key='player.index'>{{player.Name}}</div>
+      <div
+        class='player'
+        :class="{clicked: clickedPlayer === player.index}"
+        v-for='player in playerList'
+        :key='player.index'
+        @click="handlePlayerClick(player.index)"
+      >
+          {{player['Your Name']}}
+      </div>
     </div>
   </div>
 </template>
@@ -24,6 +39,7 @@ export default {
   name: 'App',
   data() {
     return {
+      clickedPlayer: null,
       draftStarted: false,
       playerIndex: 0,
       playerList: [],
@@ -48,23 +64,16 @@ export default {
         complete: this.processCSVData
       })
     },
+    handlePlayerClick(index) {
+      console.log('here');
+      this.clickedPlayer = index
+    },
     processCSVData(results) {
       // Access the parsed data in results.data
       const csvData = results.data
 
       // Define custom headers or use column indexes
-      const customHeaders = [
-        'Timestamp',
-        'Email',
-        'EmailAddress',
-        'WeeksAvailable',
-        'Name',
-        'Paid',
-        'Captain',
-        'HaveYouPlayed',
-        'Gender',
-        'SkillLevel'
-      ]
+      const customHeaders = csvData[0]
 
       // Iterate through each row of data and create player objects
       const players = csvData.map(row => {
@@ -80,9 +89,6 @@ export default {
       const filteredPlayers = players.filter(player => (player['Name'] !== ''))
 
       this.playerList = filteredPlayers
-
-      // Now you have an array of player objects to work with
-      console.log(this.playerList)
     },
     startDraft()
     {
@@ -121,7 +127,7 @@ export default {
 
 .frisbee-draft {
   background-color: #fceed1;
-  height: 100vh;
+  height: 100%;
 }
 
 .draft-grid {
@@ -154,6 +160,11 @@ export default {
   padding-left: 10px;
   padding-right: 10px;
   margin: 5px;
+  cursor: pointer;
+}
+
+.clicked {
+  background-color: greenyellow;
 }
 
 .file-browser {
