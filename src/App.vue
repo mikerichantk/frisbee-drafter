@@ -65,7 +65,14 @@ export default {
       })
     },
     handlePlayerClick(index) {
-      this.clickedPlayer = index
+      if (this.clickedPlayer === index)
+      {
+        this.clickedPlayer = null
+      }
+      else
+      {
+        this.clickedPlayer = index
+      }
     },
     processCSVData(results) {
       // Access the parsed data in results.data
@@ -177,7 +184,7 @@ export default {
 }
 
 .clicked {
-  background-color: peachpuff !important;
+  background-color: pink !important;
 }
 
 
