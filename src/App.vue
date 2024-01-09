@@ -11,9 +11,10 @@
     <div class='draft-grid'>
       <div
         class='team'
-        :class="{[teamColor(team.index)]: true, choose: clickedPlayer}"
+        :class="{[teamColor(team.index)]: true, choose: clickedPlayer != null}"
         v-for='team in teams'
         :key='team.index'
+        @click="handleTeamClick(team.index)"
       >
         {{team.name}}
       </div>
@@ -21,10 +22,10 @@
     <div class='player-grid'>
       <div
         class='player'
-        :class="{clicked: clickedPlayer === player.index}"
-        v-for='player in playerList'
+        :class="{clicked: clickedPlayer === index}"
+        v-for='(player, index) in playerList'
         :key='player.index'
-        @click="handlePlayerClick(player.index)"
+        @click="handlePlayerClick(index)"
       >
           {{player['Your Name']}}
       </div>
@@ -41,7 +42,6 @@ export default {
     return {
       clickedPlayer: null,
       draftStarted: false,
-      playerIndex: 0,
       playerList: [],
       showTeamNameInput: false,
       teamIndex: 0,
@@ -64,6 +64,13 @@ export default {
         complete: this.processCSVData
       })
     },
+    handleTeamClick(index) {
+      console.log('here');
+      if (this.clickedPlayer == null) { return }
+      this.teams[index].teamPlayers.push(this.playerList[this.clickedPlayer])
+      this.playerList.splice(this.clickedPlayer, 1)
+      this.clickedPlayer = null
+    },
     handlePlayerClick(index) {
       if (this.clickedPlayer === index)
       {
@@ -80,6 +87,7 @@ export default {
 
       // Define custom headers or use column indexes
       const customHeaders = csvData[0]
+      let playerIndex = -1
 
       // Iterate through each row of data and create player objects
       const players = csvData.map(row => {
@@ -87,8 +95,8 @@ export default {
         customHeaders.forEach((header, index) => {
           player[header] = row[index]
         })
-        player['index'] = this.playerIndex
-        this.playerIndex++
+        player['index'] = playerIndex
+        playerIndex++
         return player
       })
 
@@ -110,6 +118,7 @@ export default {
         const newTeam = {
           index: this.teamIndex,
           name: this.teamName,
+          teamPlayers: [],
         }
         this.teams.push(newTeam)
         this.teamIndex++
