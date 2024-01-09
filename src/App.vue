@@ -170,10 +170,10 @@ export default {
   border-radius: 15px;
   padding-left: 10px;
   padding-right: 10px;
-  cursor: pointer;
 }
 
 .choose {
+  cursor: pointer;
   box-shadow: 0 0 5px 5px gold;
 }
 
