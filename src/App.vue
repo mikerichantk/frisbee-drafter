@@ -11,7 +11,7 @@
     <div class='draft-grid'>
       <div
         class='team'
-        :class='teamColor(team.index)'
+        :class="{[teamColor(team.index)]: true, choose: clickedPlayer}"
         v-for='team in teams'
         :key='team.index'
       >
@@ -155,6 +155,10 @@ export default {
   padding-left: 10px;
   padding-right: 10px;
   cursor: pointer;
+}
+
+.choose {
+  box-shadow: 0 0 5px 5px gold;
 }
 
 .player {
