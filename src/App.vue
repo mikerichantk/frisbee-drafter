@@ -2,7 +2,7 @@
   <div class='frisbee-draft'>
     <button v-if="!draftStarted" @click='startDraft()' class='start-draft'>Start Draft</button>
     <input v-if="!draftStarted" type="file" @change="handleCSVFileUpload" accept=".csv" class='file-browser'/>
-    <div class='title mb'>Frisbee Draft</div>
+    <div class='title mb'>Frisbee Draft M({{ totalMale }}) F({{ totalFemale }})</div>
     <button v-if='!draftStarted' @click='addTeam()'>Add Team</button>
     <div v-if='showTeamNameInput'>
       <input v-model="teamName" placeholder="Enter your team's name" @keyup.enter="submitTeamName()"/>
@@ -17,7 +17,7 @@
           :key='team.index'
           @click="handleTeamClick(team.index)"
         >
-          {{team.name}}
+          {{team.name}} M({{ male(team.teamPlayers) }}) F({{ female(team.teamPlayers) }})
         </div>
       </div>
       <div class="flex space-between">
@@ -47,6 +47,15 @@
           {{ player['Your Name'] }}
       </div>
     </div>
+    <div v-if="clickedPlayer != null">
+      <div
+        class="left-align padding-left padding-top"
+        v-for="(data, field, index) in playerList[clickedPlayer]"
+        :key="index"
+      >
+       {{ field }}: {{ data }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -66,11 +75,25 @@ export default {
       teams: [],
     }
   },
+  computed:
+  {
+    totalFemale()
+    {
+      return this.playerList.filter(player => player['Gender'] == 'Female').length
+    },
+    totalMale()
+    {
+      return this.playerList.filter(player => player['Gender'] == 'Male').length
+    },
+  },
   methods:
   {
     addTeam()
     {
       this.showTeamNameInput = true
+    },
+    female(players) {
+      return players.filter(player => player['Gender'] == 'Female').length
     },
     handleCSVFileUpload(event) {
       const file = event.target.files[0];
@@ -97,6 +120,9 @@ export default {
       {
         this.clickedPlayer = index
       }
+    },
+    male(players) {
+      return players.filter(player => player['Gender'] == 'Male').length
     },
     processCSVData(results) {
       // Access the parsed data in results.data
@@ -163,7 +189,7 @@ export default {
 
 .frisbee-draft {
   background-color: darkslateblue;
-  height: 200vh;
+  height: 300vh;
 }
 
 .flex {
@@ -233,6 +259,17 @@ export default {
   background-color: pink !important;
 }
 
+.left-align {
+  text-align: left;
+}
+
+.padding-left {
+  padding-left: 20px;
+}
+
+.padding-top {
+  padding-top: 20px;
+}
 
 .file-browser {
   position: absolute;
