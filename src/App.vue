@@ -18,6 +18,9 @@
       >
         {{team.name}}
       </div>
+      <div class="team-players">
+
+      </div>
     </div>
     <div class='player-grid'>
       <div
@@ -146,7 +149,7 @@ export default {
 
 .frisbee-draft {
   background-color: darkslateblue;
-  height: 100%;
+  height: 200vh;
 }
 
 .draft-grid {
@@ -155,7 +158,7 @@ export default {
   padding-right: 100px;
   display: flex;
   justify-content: space-between;
-  height: 30vh;
+  margin-bottom: 100px;
 }
 
 .player-grid {
@@ -165,8 +168,13 @@ export default {
 }
 
 .team {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
   color: black;
   min-width: 100px;
+  height: 30px;
   border-radius: 15px;
   padding-left: 10px;
   padding-right: 10px;
