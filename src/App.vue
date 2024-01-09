@@ -191,6 +191,7 @@ export default {
 
 .player-grid {
   align-items: center;
+  justify-content: center;
   display: flex;
   flex-wrap: wrap;
 }
