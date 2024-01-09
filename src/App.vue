@@ -65,7 +65,6 @@ export default {
       })
     },
     handlePlayerClick(index) {
-      console.log('here');
       this.clickedPlayer = index
     },
     processCSVData(results) {
@@ -79,16 +78,19 @@ export default {
       const players = csvData.map(row => {
         const player = {}
         customHeaders.forEach((header, index) => {
-           player[header] = row[index]
+          player[header] = row[index]
         })
         player['index'] = this.playerIndex
         this.playerIndex++
         return player
       })
 
-      const filteredPlayers = players.filter(player => (player['Name'] !== ''))
+      const filteredPlayers = players.filter(player => (player['Your Name'] !== ''))
+
+      filteredPlayers.shift()
 
       this.playerList = filteredPlayers
+      
     },
     startDraft()
     {
@@ -110,7 +112,7 @@ export default {
     },
     teamColor(index)
     {
-      const colors = ["bg-red", "bg-blue", "bg-green", "bg-purple", "bg-pink"]
+      const colors = ["bg-salmon", "bg-blue", "bg-green", "bg-yellow"]
       return colors[index%5]
     },
   },
@@ -123,10 +125,11 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  color: white;
 }
 
 .frisbee-draft {
-  background-color: #fceed1;
+  background-color: darkslateblue;
   height: 100%;
 }
 
@@ -146,14 +149,16 @@ export default {
 }
 
 .team {
-  background-color: #ADD8E6;
+  color: black;
   min-width: 100px;
   border-radius: 15px;
   padding-left: 10px;
   padding-right: 10px;
+  cursor: pointer;
 }
 
 .player {
+  color: black;
   background-color: #FFFFFF;
   min-width: 100px;
   border-radius: 15px;
@@ -163,9 +168,14 @@ export default {
   cursor: pointer;
 }
 
-.clicked {
-  background-color: greenyellow;
+.player:hover {
+  background-color: lightgray;
 }
+
+.clicked {
+  background-color: peachpuff !important;
+}
+
 
 .file-browser {
   position: absolute;
@@ -179,24 +189,20 @@ export default {
   right: 20px;
 }
 
-.bg-red {
-  background-color: #E7A1A1;
+.bg-salmon {
+  background-color: lightsalmon;
 }
 
 .bg-blue {
-  background-color: #C3FFEB;
+  background-color: lightblue;
 }
 
 .bg-green {
-  background-color: #D1FF36;
+  background-color: lightgreen;
 }
 
-.bg-purple {
-  background-color: #D2D2FF;
-}
-
-.bg-pink {
-  background-color: #F5D6F5;
+.bg-yellow {
+  background-color: lightyellow;
 }
 
 .title {
