@@ -105,7 +105,6 @@ export default {
       })
     },
     handleTeamClick(index) {
-      console.log('here');
       if (this.clickedPlayer == null) { return }
       this.teams[index].teamPlayers.push(this.playerList[this.clickedPlayer])
       this.playerList.splice(this.clickedPlayer, 1)
@@ -143,6 +142,11 @@ export default {
       const filteredPlayers = players.filter(player => (player['Your Name'] !== ''))
 
       filteredPlayers.shift()
+
+      filteredPlayers.sort((a, b) => 
+        {
+          return a['Your Name'].localeCompare(b['Your Name'])
+        })
 
       this.playerList = filteredPlayers
       

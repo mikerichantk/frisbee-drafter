@@ -26,6 +26,9 @@ npm install
 ### Compiles and hot-reloads for development
 ```
 npm run serve
+
+Also, note that you will want to stop the local server when you are done using it.
+'CTRL' + 'c' should shut it down.
 ```
 
 ## Localhost
